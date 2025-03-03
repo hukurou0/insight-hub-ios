@@ -11,6 +11,7 @@
 		9AA3E9922D7538840046ABE6 /* OpenAPIURLSession in Frameworks */ = {isa = PBXBuildFile; productRef = 9AA3E9912D7538840046ABE6 /* OpenAPIURLSession */; };
 		9AA3E99F2D753C900046ABE6 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 9AA3E99E2D753C900046ABE6 /* Auth */; };
 		9AA3E9C42D75534D0046ABE6 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 9AA3E9C32D75534D0046ABE6 /* README.md */; };
+		9AA3E9D92D75636D0046ABE6 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 9AA3E9D82D75636D0046ABE6 /* Supabase */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AA3E9D92D75636D0046ABE6 /* Supabase in Frameworks */,
 				9AA3E9922D7538840046ABE6 /* OpenAPIURLSession in Frameworks */,
 				9AA3E9902D7538840046ABE6 /* OpenAPIRuntime in Frameworks */,
 				9AA3E99F2D753C900046ABE6 /* Auth in Frameworks */,
@@ -162,6 +164,7 @@
 				9AA3E98F2D7538840046ABE6 /* OpenAPIRuntime */,
 				9AA3E9912D7538840046ABE6 /* OpenAPIURLSession */,
 				9AA3E99E2D753C900046ABE6 /* Auth */,
+				9AA3E9D82D75636D0046ABE6 /* Supabase */,
 			);
 			productName = InsightHub;
 			productReference = 9AA3E92E2D7533B80046ABE6 /* InsightHub.app */;
@@ -673,6 +676,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9AA3E99D2D753C900046ABE6 /* XCRemoteSwiftPackageReference "supabase-swift" */;
 			productName = Auth;
+		};
+		9AA3E9D82D75636D0046ABE6 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9AA3E99D2D753C900046ABE6 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  InsightHub
-//
-//  Created by Yu Takahashi on 3/3/25.
-//
-
 import SwiftUI
 
 struct ContentView: View {
@@ -14,6 +7,17 @@ struct ContentView: View {
                 .imageScale(.large)
                 .foregroundStyle(.tint)
             Text("Hello, world!")
+            Button {
+                Task {
+                    do {
+                        _ = try await BookRepository.create(userId: "000", title: "Test", author: "Who?", status: "未読", content: "Test", coverImage: nil)
+                    } catch {
+                        print(error)
+                    }
+                }
+            } label: {
+                Text("Upload")
+            }
         }
         .padding()
     }
