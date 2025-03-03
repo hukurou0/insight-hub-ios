@@ -1,3 +1,3 @@
 enum AuthError: Error {
-    case noSession
+    case noSessionFound
 }

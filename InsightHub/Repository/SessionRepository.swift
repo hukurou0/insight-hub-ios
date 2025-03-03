@@ -6,7 +6,7 @@ actor SessionRepository {
 
     private(set) var session: Session?
 
-    func setSession(_ session: Session) {
+    func setSession(_ session: Session?) {
         self.session = session
     }
 }
