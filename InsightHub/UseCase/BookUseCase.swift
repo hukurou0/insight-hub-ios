@@ -1,22 +1,20 @@
 import Foundation
 
-class BookUseCase {
+actor BookUseCase {
     func create(
         title: String,
         author: String,
-        status: String,
-        content: String,
+        category: BookCategory?,
         coverImageURL: String?
     ) async throws -> BookModel {
         let session = await SessionRepository.shared.session
-        guard let userId = session?.user.id else { throw AuthError.noSessionFound }
+        guard let userId = session?.id else { throw AuthError.noSessionFound }
         return try await BookRepository.create(
-            userId: userId.uuidString,
+            userId: userId,
             title: title,
             author: author,
-            status: status,
-            content: content,
-            coverImage: coverImageURL
+            category: category?.rawValue,
+            coverImageURL: coverImageURL
         )
     }
 
@@ -25,8 +23,6 @@ class BookUseCase {
     }
 
     func analyzeImage(for coverImage: Data) async throws -> BookAnalysisResult {
-        let session = await SessionRepository.shared.session
-        guard let userId = session?.user.id else { throw AuthError.noSessionFound }
-        return try await BookRepository.analyze(userId: userId.uuidString, coverImage: coverImage)
+        try await BookRepository.analyze(coverImage: coverImage)
     }
 }
