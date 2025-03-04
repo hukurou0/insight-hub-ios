@@ -1,25 +1,38 @@
 import SwiftUI
 
 struct HomeView: View {
+    @State private var viewModel = HomeViewModel()
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-            Button {
-                Task {
-                    do {
-                        try await AuthRepository.logOut()
-                    } catch {
-                        print(error)
+        NavigationView {
+            VStack {
+                Button {
+                    Task {
+                        try? await AuthRepository.logOut()
+                    }
+                } label: {
+                    Text("Log Out")
+                }
+            }
+            .navigationTitle("Insight Hub")
+            .sheet(isPresented: $viewModel.isCreationSheetShown) {
+                BookCreationView()
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {} label: {
+                        Image(systemName: "gearshape")
                     }
                 }
-            } label: {
-                Text("Log Out")
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        viewModel.isCreationSheetShown.toggle()
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
             }
         }
-        .padding()
     }
 }
 

@@ -6,7 +6,7 @@ servers:
   - url: https://mny9hjtbri.ap-northeast-1.awsapprunner.com
     description: Production
   - url: http://0.0.0.0:8000
-    description: Localhost Debug.
+    description: Localhost Debug
 paths:
   /api/book-analysis/analyze:
     post:
@@ -28,13 +28,6 @@ paths:
                   type: string
                   format: base64
                   description: 本の表紙画像（base64エンコード）
-      parameters:
-        - in: header
-          name: user-id
-          schema:
-            type: string
-          required: true
-          description: ユーザーID
       responses:
         '200':
           description: 本の分析が成功
@@ -118,6 +111,94 @@ paths:
         '500':
           description: サーバーエラー
 
+  /api/auth/signin:
+    post:
+      summary: ログイン
+      description: メールアドレスとパスワードでログインします
+      operationId: signIn
+      tags:
+        - auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthCredentials'
+      responses:
+        '200':
+          description: ログイン成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: メールアドレスまたはパスワードが正しくありません
+
+  /api/auth/signup:
+    post:
+      summary: アカウント作成
+      description: 新規アカウントを作成します
+      operationId: signUp
+      tags:
+        - auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthCredentials'
+      responses:
+        '200':
+          description: アカウント作成成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: アカウントが作成されました
+        '400':
+          description: アカウント作成失敗
+
+  /api/auth/session:
+    get:
+      summary: セッション確認
+      description: 現在のセッション情報を取得します
+      operationId: getSession
+      tags:
+        - auth
+      responses:
+        '200':
+          description: セッション有効
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: 未認証
+
+  /api/auth/signout:
+    post:
+      summary: ログアウト
+      description: 現在のセッションをログアウトします
+      operationId: signOut
+      tags:
+        - auth
+      responses:
+        '200':
+          description: ログアウト成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ログアウトしました
+        '500':
+          description: ログアウト失敗
+
 components:
   schemas:
     BookAnalysisResult:
@@ -149,22 +230,35 @@ components:
         status:
           type: string
           description: 読書状態
-          enum: ['未読']
-          default: '未読'
-        content:
+        category:
           type: string
-          description: 本の内容
+          description: 本のカテゴリー
+          nullable: true
         cover_image:
           type: string
-          description: img-uploadで生成された画像のURL
+          description: 本の表紙画像のURL
+          nullable: true
+        notes:
+          type: string
+          description: メモ
+          nullable: true
+        last_read_date:
+          type: string
+          format: date-time
+          description: 最後に読んだ日時
           nullable: true
     
     BookModel:
       type: object
+      required:
+        - id
+        - title
+        - author
+        - status
+        - user_id
       properties:
         id:
           type: string
-          format: uuid
           description: 本のID
         title:
           type: string
@@ -172,13 +266,55 @@ components:
         author:
           type: string
           description: 著者名
-        content:
+        status:
           type: string
-          description: 本の内容
-        analysis_result:
-          type: object
-          description: 分析結果
-        created_at:
+          description: 読書状態
+        category:
+          type: string
+          description: 本のカテゴリー
+          nullable: true
+        cover_image:
+          type: string
+          description: 本の表紙画像のURL
+          nullable: true
+        notes:
+          type: string
+          description: 本に関するメモ
+          nullable: true
+        last_read_date:
           type: string
           format: date-time
-          description: 作成日時 
+          description: 最後に読んだ日時
+          nullable: true
+        user_id:
+          type: string
+          description: ユーザーID
+
+    AuthCredentials:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          description: ユーザーのメールアドレス
+        password:
+          type: string
+          format: password
+          description: ユーザーのパスワード
+
+    User:
+      type: object
+      required:
+        - id
+        - email
+      properties:
+        id:
+          type: string
+          description: ユーザーID
+        email:
+          type: string
+          format: email
+          description: ユーザーのメールアドレス 
