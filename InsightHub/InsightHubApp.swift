@@ -1,17 +1,22 @@
-//
-//  InsightHubApp.swift
-//  InsightHub
-//
-//  Created by Yu Takahashi on 3/3/25.
-//
-
 import SwiftUI
 
 @main
 struct InsightHubApp: App {
+    @State private var screenController = ScreenController.shared
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Group {
+                switch screenController.current {
+                case .splash:
+                    SplashView()
+                case .auth:
+                    AuthView()
+                case .home:
+                    HomeView()
+                }
+            }
+            .environment(screenController)
         }
     }
 }

@@ -1,4 +1,4 @@
-class AuthUseCase {
+actor AuthUseCase {
     func logIn(email: String, password: String) async throws {
         let session = try await AuthRepository.logIn(email: email, password: password)
         await SessionRepository.shared.setSession(session)
