@@ -35,12 +35,12 @@ class BookRepository {
         return try response.ok.body.json
     }
 
-    static func analyze(userId: String, bookCover: Data) async throws -> BookAnalysisResult {
+    static func analyze(userId: String, coverImage: Data) async throws -> BookAnalysisResult {
         let response = try await OpenAPI.client().analyzeBook(
             headers: .init(userId: userId),
             body: .json(
                 .init(
-                    imageBase64: bookCover.base64EncodedString()
+                    imageBase64: coverImage.base64EncodedString()
                 )
             )
         )
