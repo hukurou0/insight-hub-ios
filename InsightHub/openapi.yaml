@@ -5,7 +5,7 @@ info:
 servers:
   - url: https://mny9hjtbri.ap-northeast-1.awsapprunner.com
     description: Production
-  - url: http://localhost:8080
+  - url: http://0.0.0.0:8000
     description: Localhost Debug.
 paths:
   /api/book-analysis/analyze:
