@@ -30,6 +30,12 @@
 
     Place `.env` file in the root directory of this repository.
 
+    `.env` file should include these values:
+    ```env
+    SUPABASE_URL=
+    SUPABASE_KEY=
+    ```
+
 3. Run setup command
 
     This command sets up pre-commit hook to run `swiftformat` before you commit and environment variables in Swift file.
