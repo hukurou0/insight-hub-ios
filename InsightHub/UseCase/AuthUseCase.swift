@@ -5,7 +5,8 @@ actor AuthUseCase {
     }
 
     func signUp(email: String, password: String) async throws {
-        let session = try await AuthRepository.signUp(email: email, password: password)
+        try await AuthRepository.signUp(email: email, password: password)
+        let session = try await AuthRepository.getCurrentSession()
         await SessionRepository.shared.setSession(session)
     }
 

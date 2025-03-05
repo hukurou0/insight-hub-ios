@@ -1,12 +1,10 @@
-import Auth
-
 actor SessionRepository {
     static let shared = SessionRepository()
     private init() {}
 
-    private(set) var session: Session?
+    private(set) var session: User?
 
-    func setSession(_ session: Session?) {
+    func setSession(_ session: User?) {
         self.session = session
     }
 }
