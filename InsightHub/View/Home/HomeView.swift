@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ContentView: View {
+struct HomeView: View {
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -10,13 +10,13 @@ struct ContentView: View {
             Button {
                 Task {
                     do {
-                        _ = try await BookRepository.create(userId: "000", title: "Test", author: "Who?", status: "未読", content: "Test", coverImage: nil)
+                        try await AuthRepository.logOut()
                     } catch {
                         print(error)
                     }
                 }
             } label: {
-                Text("Upload")
+                Text("Log Out")
             }
         }
         .padding()
@@ -24,5 +24,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    HomeView()
 }
