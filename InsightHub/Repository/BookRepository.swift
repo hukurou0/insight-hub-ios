@@ -19,7 +19,7 @@ class BookRepository {
                     category: category,
                     coverImage: coverImageURL,
                     notes: nil,
-                    lastReadDate: nil
+                    lastReadDate: Date() // TODO: Replace to nil when Supabase schema is updated.
                 )
             )
         )
@@ -30,7 +30,7 @@ class BookRepository {
     static func uploadImage(_ imageData: Data) async throws -> UploadedBookImageData {
         let response = try await OpenAPI.client().uploadBookImage(body: .multipartForm(
             [.file(
-                .init(payload: .init(body: .init(imageData)))
+                .init(payload: .init(body: .init(imageData)), filename: "\(Date().ISO8601Format()).jpeg")
             )]
         ))
 

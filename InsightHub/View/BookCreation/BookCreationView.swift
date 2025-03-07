@@ -3,7 +3,11 @@ import SwiftUI
 
 struct BookCreationView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var viewModel = BookCreationViewModel()
+    @State private var viewModel: BookCreationViewModel
+
+    init(lastCreatedBook: Binding<BookModel?>) {
+        viewModel = .init(lastCreatedBook: lastCreatedBook)
+    }
 
     public var body: some View {
         NavigationView {
@@ -14,8 +18,25 @@ struct BookCreationView: View {
                             Image(uiImage: image)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(height: 300)
                                 .cornerRadius(radius: 30)
+                                .overlay(alignment: .bottomTrailing) {
+                                    if viewModel.bookAnalysisResult != nil {
+                                        Button {
+                                            viewModel.clearAnalyzedData()
+                                        } label: {
+                                            Image(systemName: "arrow.clockwise")
+                                                .foregroundStyle(Color(.label))
+                                                .bold()
+                                                .padding(12)
+                                                .background(.regularMaterial)
+                                                .clipShape(Circle())
+                                        }
+                                        .offset(x: 20, y: 20)
+                                        .shadow(color: .black.opacity(0.2), radius: 10)
+                                        .disabled(viewModel.isImageBeingAnalyzed || viewModel.isSaving)
+                                    }
+                                }
+                                .frame(minWidth: 0, maxHeight: 300)
                         } else {
                             Rectangle()
                                 .fill(.regularMaterial)
@@ -25,22 +46,7 @@ struct BookCreationView: View {
                         }
                     }
                     .shadow(color: .black.opacity(0.2), radius: 20, y: 5)
-                    .overlay(alignment: .bottomTrailing) {
-                        if viewModel.bookAnalysisResult != nil {
-                            Button {
-                                viewModel.clearAnalyzedData()
-                            } label: {
-                                Image(systemName: "arrow.clockwise")
-                                    .foregroundStyle(Color(.label))
-                                    .bold()
-                                    .padding(12)
-                                    .background(.regularMaterial)
-                                    .clipShape(Circle())
-                            }
-                            .offset(x: 20, y: 20)
-                            .shadow(color: .black.opacity(0.2), radius: 10)
-                        }
-                    }
+                    .padding(.horizontal)
 
                     if viewModel.bookAnalysisResult == nil {
                         VStack(spacing: 20) {
@@ -55,6 +61,7 @@ struct BookCreationView: View {
                                 }
                                 .cornerRadius()
                                 .onChange(of: viewModel.imageItem, viewModel.processImagePickedByLibrary)
+                                .disabled(viewModel.isImageBeingAnalyzed)
 
                                 Button {
                                     viewModel.analyzeImage()
@@ -67,6 +74,7 @@ struct BookCreationView: View {
                                         .background(.blue)
                                 }
                                 .cornerRadius()
+                                .disabled(viewModel.isImageBeingAnalyzed)
 
                                 Button {
                                     viewModel.clearImageData()
@@ -78,7 +86,7 @@ struct BookCreationView: View {
                                         .background(.red)
                                 }
                                 .cornerRadius()
-                                .disabled(viewModel.imageData == nil)
+                                .disabled(viewModel.imageData == nil || viewModel.isImageBeingAnalyzed)
                             }
                             .shadow(color: .black.opacity(0.2), radius: 20, y: 5)
 
@@ -134,10 +142,20 @@ struct BookCreationView: View {
                     Button {
                         viewModel.save()
                     } label: {
-                        Text("登録")
-                            .bold()
+                        HStack {
+                            if viewModel.isSaving {
+                                ProgressView()
+                            }
+                            Text("登録")
+                                .bold()
+                        }
                     }
-                    .disabled(true)
+                    .disabled(viewModel.bookAnalysisResult == nil)
+                }
+            }
+            .onChange(of: viewModel.isSaving) { oldValue, newValue in
+                if oldValue == true, newValue == false {
+                    dismiss()
                 }
             }
             .sheet(isPresented: $viewModel.isCameraPickerShown) {

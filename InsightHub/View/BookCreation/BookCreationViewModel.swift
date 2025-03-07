@@ -16,6 +16,12 @@ class BookCreationViewModel {
     var title = ""
     var author = ""
     var category: BookCategory?
+    var isSaving = false
+    var lastCreatedBook: Binding<BookModel?>
+
+    init(lastCreatedBook: Binding<BookModel?>) {
+        self.lastCreatedBook = lastCreatedBook
+    }
 
     func processImagePickedByLibrary() {
         Task {
@@ -35,7 +41,7 @@ class BookCreationViewModel {
     }
 
     func processImagePickedByCamera(_ image: UIImage) {
-        guard let imageData = image.pngData() else {
+        guard let imageData = image.jpegData(compressionQuality: 1.0) else {
             imageData = nil
             return
         }
@@ -71,12 +77,14 @@ class BookCreationViewModel {
     func save() {
         Task {
             defer {
-                isImageBeingAnalyzed = false
+                isSaving = false
             }
             do {
                 guard let imageData else { return }
+                isSaving = true
                 let uploadedImageData = try await bookUseCase.uploadImage(imageData)
-                _ = try await bookUseCase.create(title: title, author: author, category: category, coverImageURL: uploadedImageData.url)
+                let newBook = try await bookUseCase.create(title: title, author: author, category: category, coverImageURL: uploadedImageData.url)
+                lastCreatedBook.wrappedValue = newBook
             } catch {
                 print(error.localizedDescription)
             }

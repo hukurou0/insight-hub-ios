@@ -26,6 +26,7 @@ struct AuthView: View {
                     Text(AuthMode.signUp.label)
                         .tabValue(AuthMode.signUp)
                 }
+                .disabled(viewModel.isLoading)
 
                 VStack(spacing: 25) {
                     IHTextField(
@@ -50,7 +51,7 @@ struct AuthView: View {
                         Text(viewModel.mode.label)
                     }
                     .buttonStyle(IHButtonStyle(isLoading: viewModel.isLoading))
-                    .disabled(viewModel.email.isEmpty || viewModel.password.isEmpty)
+                    .disabled(viewModel.email.isEmpty || viewModel.password.isEmpty || viewModel.isLoading)
                 }
                 .padding()
             }
