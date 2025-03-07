@@ -10,7 +10,7 @@ struct HomeView: View {
 
                 Group {
                     if let book = viewModel.lastCreatedBook, let url = book.coverImage {
-                        VStack {
+                        VStack(spacing: 10) {
                             AsyncImage(url: URL(string: url)) { image in
                                 image
                                     .resizable()
@@ -45,19 +45,23 @@ struct HomeView: View {
 
                             Text("本が追加されました!")
                                 .bold()
+                                .padding()
                         }
                     } else {
-                        VStack(spacing: 20) {
-                            Image(systemName: "plus")
-                                .font(.system(size: 64))
-                                .foregroundStyle(Color(.secondaryLabel))
-
-                            Button {
-                                viewModel.isCreationSheetShown.toggle()
-                            } label: {
+                        Button {
+                            viewModel.isCreationSheetShown.toggle()
+                        } label: {
+                            VStack(spacing: 20) {
+                                Image(systemName: "plus")
+                                    .font(.system(size: 64))
+                                    .foregroundStyle(Color(.secondaryLabel))
                                 Text("本を追加")
+                                    .foregroundStyle(Color(.label))
                             }
                         }
+                        .padding()
+                        .background(.regularMaterial)
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
                     }
                 }
                 .padding(.bottom, 100)
@@ -75,9 +79,15 @@ struct HomeView: View {
             .sheet(isPresented: $viewModel.isCreationSheetShown) {
                 BookCreationView(lastCreatedBook: $viewModel.lastCreatedBook)
             }
+            .sheet(isPresented: $viewModel.isSettingsSheetShown) {
+                SettingsView()
+                    .presentationDetents([.medium])
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button {} label: {
+                    Button {
+                        viewModel.isSettingsSheetShown.toggle()
+                    } label: {
                         Image(systemName: "gearshape")
                     }
                 }

@@ -10,6 +10,10 @@ actor AuthUseCase {
         await SessionRepository.shared.setSession(session)
     }
 
+    func getUser() async -> User? {
+        try? await AuthRepository.getCurrentSession()
+    }
+
     func isLoggedIn() async -> Bool {
         let session = try? await AuthRepository.getCurrentSession()
         await SessionRepository.shared.setSession(session)
