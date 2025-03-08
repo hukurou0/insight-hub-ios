@@ -6,9 +6,8 @@ class BookRepository {
         userId: String,
         title: String,
         author: String,
-        status: String,
-        content: String,
-        coverImage: String?
+        category: String?,
+        coverImageURL: String?
     ) async throws -> BookModel {
         let response = try await OpenAPI.client().createBook(
             headers: .init(userId: userId),
@@ -16,28 +15,30 @@ class BookRepository {
                 .init(
                     title: title,
                     author: author,
-                    status: BookStatus(rawValue: status) ?? .未読,
-                    content: content,
-                    coverImage: coverImage
+                    status: "未読",
+                    category: category,
+                    coverImage: coverImageURL,
+                    notes: nil,
+                    lastReadDate: Date() // TODO: Replace to nil when Supabase schema is updated.
                 )
             )
         )
+
         return try response.ok.body.json
     }
 
     static func uploadImage(_ imageData: Data) async throws -> UploadedBookImageData {
         let response = try await OpenAPI.client().uploadBookImage(body: .multipartForm(
             [.file(
-                .init(payload: .init(body: .init(imageData.base64EncodedString())))
+                .init(payload: .init(body: .init(imageData)), filename: "\(Date().ISO8601Format()).jpeg")
             )]
         ))
 
         return try response.ok.body.json
     }
 
-    static func analyze(userId: String, coverImage: Data) async throws -> BookAnalysisResult {
+    static func analyze(coverImage: Data) async throws -> BookAnalysisResult {
         let response = try await OpenAPI.client().analyzeBook(
-            headers: .init(userId: userId),
             body: .json(
                 .init(
                     imageBase64: coverImage.base64EncodedString()

@@ -15,7 +15,7 @@ struct IHButtonStyle: ButtonStyle {
             }
             configuration.label
         }
-        .animation(.spring, value: isLoading)
+        .animation(.bouncy, value: isLoading)
         .padding()
         .frame(minWidth: 0, maxWidth: .infinity)
         .foregroundStyle(.white)
