@@ -27,7 +27,7 @@ struct CompletionOverlay: View {
                                 .cornerRadius(radius: 30)
                                 .frame(maxHeight: 300)
                                 .shadow(color: .black.opacity(0.2), radius: 20, y: 5)
-                        } else if let error = phase.error {
+                        } else if let _ = phase.error {
                             buildInvalidImagePlaceholder()
                         } else {
                             VStack {
