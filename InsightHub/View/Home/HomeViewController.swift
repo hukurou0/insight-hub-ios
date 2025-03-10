@@ -6,4 +6,10 @@ class HomeViewModel {
     var isSettingsSheetShown = false
 
     var lastCreatedBook: BookModel?
+
+    func clearLastCreatedBook() {
+        withAnimation {
+            lastCreatedBook = nil
+        }
+    }
 }
