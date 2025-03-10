@@ -53,6 +53,8 @@ struct BookCreationView: View {
                             HStack(spacing: 10) {
                                 PhotosPicker(selection: $viewModel.imageItem, matching: .images) {
                                     Text("ライブラリから選択")
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.01)
                                 }
                                 .buttonStyle(IHButtonStyle())
                                 .disabled(viewModel.isImageBeingAnalyzed)
@@ -62,6 +64,8 @@ struct BookCreationView: View {
                                     viewModel.analyzeImage()
                                 } label: {
                                     Text("カメラで撮影")
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.01)
                                 }
                                 .buttonStyle(IHButtonStyle())
                                 .disabled(viewModel.isImageBeingAnalyzed)
