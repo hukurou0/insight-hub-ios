@@ -53,40 +53,18 @@ struct BookCreationView: View {
                             HStack(spacing: 10) {
                                 PhotosPicker(selection: $viewModel.imageItem, matching: .images) {
                                     Text("ライブラリから選択")
-                                        .foregroundStyle(.white)
-                                        .padding(8)
-                                        .frame(height: 70)
-                                        .frame(minWidth: 0, maxWidth: .infinity)
-                                        .background(.blue)
                                 }
-                                .cornerRadius()
-                                .onChange(of: viewModel.imageItem, viewModel.processImagePickedByLibrary)
+                                .buttonStyle(IHButtonStyle())
                                 .disabled(viewModel.isImageBeingAnalyzed)
+                                .onChange(of: viewModel.imageItem, viewModel.processImagePickedByLibrary)
 
                                 Button {
                                     viewModel.analyzeImage()
                                 } label: {
                                     Text("カメラで撮影")
-                                        .foregroundStyle(.white)
-                                        .padding(8)
-                                        .frame(height: 70)
-                                        .frame(minWidth: 0, maxWidth: .infinity)
-                                        .background(.blue)
                                 }
-                                .cornerRadius()
+                                .buttonStyle(IHButtonStyle())
                                 .disabled(viewModel.isImageBeingAnalyzed)
-
-                                Button {
-                                    viewModel.clearImageData()
-                                } label: {
-                                    Image(systemName: "trash")
-                                        .foregroundStyle(.white)
-                                        .padding(8)
-                                        .frame(width: 50, height: 70)
-                                        .background(.red)
-                                }
-                                .cornerRadius()
-                                .disabled(viewModel.imageData == nil || viewModel.isImageBeingAnalyzed)
                             }
                             .shadow(color: .black.opacity(0.2), radius: 20, y: 5)
 
@@ -96,7 +74,7 @@ struct BookCreationView: View {
                                 Text("解析")
                             }
                             .buttonStyle(IHButtonStyle(isLoading: viewModel.isImageBeingAnalyzed))
-                            .disabled(viewModel.imageData == nil)
+                            .disabled(viewModel.imageData == nil || viewModel.isImageBeingAnalyzed)
                         }
                     }
 
@@ -150,7 +128,7 @@ struct BookCreationView: View {
                                 .bold()
                         }
                     }
-                    .disabled(viewModel.bookAnalysisResult == nil)
+                    .disabled(viewModel.bookAnalysisResult == nil || viewModel.isSaving)
                 }
             }
             .onChange(of: viewModel.isSaving) { oldValue, newValue in

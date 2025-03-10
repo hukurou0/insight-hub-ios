@@ -101,11 +101,4 @@ class BookCreationViewModel {
             category = nil
         }
     }
-
-    func clearImageData() {
-        withAnimation {
-            imageItem = nil
-            imageData = nil
-        }
-    }
 }
