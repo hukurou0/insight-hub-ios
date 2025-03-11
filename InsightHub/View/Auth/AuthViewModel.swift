@@ -40,7 +40,6 @@ class AuthViewModel {
                 }
                 screenController.setScreen(.home)
             } catch {
-                // TODO: Improve error handling messages
                 alertController.showAlert(mode: .error, message: "\(mode.label)に失敗しました。お手数ですが再度お試しくただい。")
             }
         }

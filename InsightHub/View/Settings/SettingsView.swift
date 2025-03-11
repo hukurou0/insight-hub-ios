@@ -36,6 +36,7 @@ struct SettingsView: View {
             }
             .padding()
             .navigationTitle("アカウント")
+            .alert(using: $viewModel.alertController)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {

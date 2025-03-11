@@ -35,7 +35,7 @@ class BookCreationViewModel {
                     self.imageData = imageData
                 }
             } catch {
-                fatalError("Failed to process an image")
+                alertController.showAlert(mode: .error, message: "画像の処理に失敗しました。")
             }
         }
     }
@@ -69,7 +69,7 @@ class BookCreationViewModel {
                     }
                 }
             } catch {
-                print(error.localizedDescription)
+                alertController.showAlert(mode: .error, message: "本の分析に失敗しました。")
             }
         }
     }
@@ -86,7 +86,7 @@ class BookCreationViewModel {
                 let newBook = try await bookUseCase.create(title: title, author: author, category: category, coverImageURL: uploadedImageData.url)
                 lastCreatedBook.wrappedValue = newBook
             } catch {
-                print(error.localizedDescription)
+                alertController.showAlert(mode: .error, message: "本の登録に失敗しました。")
             }
         }
     }
