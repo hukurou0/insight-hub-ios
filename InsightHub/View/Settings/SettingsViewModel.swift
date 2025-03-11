@@ -2,6 +2,7 @@ import SwiftUI
 
 @Observable @MainActor
 class SettingsViewModel {
+    var alertController = AlertController()
     private let authUseCase = AuthUseCase()
     private let screenController = ScreenController.shared
     private(set) var user: User?
@@ -21,7 +22,7 @@ class SettingsViewModel {
                 try await authUseCase.logOut()
                 screenController.setScreen(.auth)
             } catch {
-                print(error)
+                alertController.showAlert(mode: .error, message: "ログアウトに失敗しました。")
             }
         }
     }
