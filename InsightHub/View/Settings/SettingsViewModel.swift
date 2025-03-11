@@ -2,8 +2,8 @@ import SwiftUI
 
 @Observable @MainActor
 class SettingsViewModel {
+    var alertController = AlertController()
     private let authUseCase = AuthUseCase()
-    private let alertController = AlertController()
     private let screenController = ScreenController.shared
     private(set) var user: User?
     private(set) var isLoading = false
