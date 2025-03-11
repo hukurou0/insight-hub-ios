@@ -61,7 +61,7 @@ struct BookCreationView: View {
                                 .onChange(of: viewModel.imageItem, viewModel.processImagePickedByLibrary)
 
                                 Button {
-                                    viewModel.analyzeImage()
+                                    viewModel.isCameraPickerShown.toggle()
                                 } label: {
                                     Text("カメラで撮影")
                                         .lineLimit(1)
