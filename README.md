@@ -26,17 +26,7 @@
     git clone https://github.com/hukurou0/insight-hub-ios.git
     ```
 
-2. Add `.env` file
-
-    Place `.env` file in the root directory of this repository.
-
-    `.env` file should include these values:
-    ```env
-    SUPABASE_URL=
-    SUPABASE_KEY=
-    ```
-
-3. Run setup command
+2. Run setup command
 
     This command sets up pre-commit hook to run `swiftformat` before you commit and environment variables in Swift file.
 
@@ -44,12 +34,12 @@
     make setup
     ```
 
-4. Open Xcode
+3. Open Xcode
 
     ```shell
     xed .
     ```
 
-5. Let's start development!
+4. Let's start development!
 
     Press `cmd + R` to run this app.
