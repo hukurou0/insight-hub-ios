@@ -1,6 +1,6 @@
 import OpenAPIURLSession
 
-class OpenAPI {
+final class OpenAPI {
     static func client() throws -> Client {
         #if DEBUG
             let serverUrl = try Servers.Server2.url()

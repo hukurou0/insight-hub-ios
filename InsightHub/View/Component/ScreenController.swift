@@ -1,7 +1,7 @@
 import SwiftUI
 
 @Observable @MainActor
-class ScreenController {
+final class ScreenController {
     enum Screen {
         case splash
         case auth

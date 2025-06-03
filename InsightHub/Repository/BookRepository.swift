@@ -1,7 +1,7 @@
 import Foundation
 import OpenAPIURLSession
 
-class BookRepository {
+final class BookRepository {
     static func create(
         userId: String,
         title: String,

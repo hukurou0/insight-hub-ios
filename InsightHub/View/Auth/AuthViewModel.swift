@@ -15,10 +15,10 @@ enum AuthMode {
 }
 
 @Observable @MainActor
-class AuthViewModel {
+final class AuthViewModel {
     private let authUseCase = AuthUseCase()
     var alertController = AlertController()
-    var screenController = ScreenController.shared
+    private var screenController = ScreenController.shared
 
     var email = ""
     var password = ""

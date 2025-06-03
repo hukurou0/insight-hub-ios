@@ -3,7 +3,7 @@
 import SwiftUI
 
 @Observable
-class AlertController {
+final class AlertController {
     enum Mode: LocalizedStringKey {
         case error = "エラー"
         case warning = "警告"

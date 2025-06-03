@@ -2,7 +2,7 @@ import PhotosUI
 import SwiftUI
 
 @Observable @MainActor
-class BookCreationViewModel {
+final class BookCreationViewModel {
     var bookUseCase = BookUseCase()
     var alertController = AlertController()
 

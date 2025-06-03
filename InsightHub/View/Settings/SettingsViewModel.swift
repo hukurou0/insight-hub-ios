@@ -1,7 +1,7 @@
 import SwiftUI
 
 @Observable @MainActor
-class SettingsViewModel {
+final class SettingsViewModel {
     var alertController = AlertController()
     private let authUseCase = AuthUseCase()
     private let screenController = ScreenController.shared

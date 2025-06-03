@@ -1,4 +1,4 @@
-class AuthRepository {
+final class AuthRepository {
     @discardableResult
     static func logIn(email: String, password: String) async throws -> User {
         let response = try await OpenAPI.client().signIn(body: .json(.init(email: email, password: password)))

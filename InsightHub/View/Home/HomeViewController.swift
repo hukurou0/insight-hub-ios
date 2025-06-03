@@ -1,7 +1,7 @@
 import SwiftUI
 
 @Observable
-class HomeViewModel {
+final class HomeViewModel {
     var isCreationSheetShown = false
     var isSettingsSheetShown = false
 
