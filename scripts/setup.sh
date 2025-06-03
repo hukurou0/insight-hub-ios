@@ -43,26 +43,26 @@ fi
 
 chmod +x $PWD/.git/hooks/pre-commit
 
-# Function to convert string to camelCase
-to_camel_case() {
-    echo "$1" | awk -F'_' '{for(i=1;i<=NF;i++) $i=tolower($i); $1=tolower($1); for(i=2;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)}1' OFS=''
-}
+# # Function to convert string to camelCase
+# to_camel_case() {
+#     echo "$1" | awk -F'_' '{for(i=1;i<=NF;i++) $i=tolower($i); $1=tolower($1); for(i=2;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)}1' OFS=''
+# }
 
-# Setup environment variable
-if [ -f "$PWD/.env" ]; then
-    echo "Reading .env file..."
-    echo "struct EnvironmentVariable {" > $PWD/InsightHub/EnvironmentVariable.swift
-    while IFS='=' read -r key value || [ -n "$key" ]; do
-        key=$(echo "$key" | tr -d '[:space:]')
-        value=$(echo "$value" | tr -d '[:space:]')
-        camel_key=$(to_camel_case "$key")
-        echo "    static let $camel_key: String = \"$value\"" >> $PWD/InsightHub/EnvironmentVariable.swift
-    done < "$PWD/.env"
-    echo "}" >> $PWD/InsightHub/EnvironmentVariable.swift
-else
-    echo -e "${RED}Error: .env file not found.${NC}"
-    exit 1
-fi
+# # Setup environment variable
+# if [ -f "$PWD/.env" ]; then
+#     echo "Reading .env file..."
+#     echo "struct EnvironmentVariable {" > $PWD/InsightHub/EnvironmentVariable.swift
+#     while IFS='=' read -r key value || [ -n "$key" ]; do
+#         key=$(echo "$key" | tr -d '[:space:]')
+#         value=$(echo "$value" | tr -d '[:space:]')
+#         camel_key=$(to_camel_case "$key")
+#         echo "    static let $camel_key: String = \"$value\"" >> $PWD/InsightHub/EnvironmentVariable.swift
+#     done < "$PWD/.env"
+#     echo "}" >> $PWD/InsightHub/EnvironmentVariable.swift
+# else
+#     echo -e "${RED}Error: .env file not found.${NC}"
+#     exit 1
+# fi
 
 echo -e "${GREEN}Setup complete.${NC}"
 exit 0

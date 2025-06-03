@@ -7,6 +7,7 @@ struct CameraPickerView: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let picker = UIImagePickerController()
+        picker.sourceType = .camera
         picker.delegate = context.coordinator
         return picker
     }
@@ -29,9 +30,7 @@ struct CameraPickerView: UIViewControllerRepresentable {
             self.onImagePicked = onImagePicked
         }
 
-        public func imagePickerController(_: UIImagePickerController,
-                                          didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any])
-        {
+        public func imagePickerController(_: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
             if let image = info[.originalImage] as? UIImage {
                 onImagePicked(image)
             }
